@@ -8,6 +8,7 @@
 
 import boto3
 
+# Enter the region and VPC id of the instances, and the instance profile to assign
 region =  str(input('Enter the region: \n'))
 vpcId = str(input('Enter the vpc-id: \n'))
 profileARN =  str(input('Enter the instance profile ARN: \n'))
@@ -38,9 +39,13 @@ for instance in instances:
     x = instance['Instances']
     y = x[0]
     if 'IamInstanceProfile' in y:
+        
+        # If the instance has the role that was provided, skip it
         if y['IamInstanceProfile']['Arn'] == profileARN:
             continue
         else:
+            
+            # If the instance has a different role, replace it
             instancesWithRoles[str(y['InstanceId'])] = str(y['IamInstanceProfile']['Arn'])
             instanceId = y['InstanceId']
             associations = ec2.describe_iam_instance_profile_associations(
@@ -68,6 +73,8 @@ for instance in instances:
                         changingInstances.append(str(y['InstanceId']))
                         continue
     else:
+        
+        # If the instance doesn't have a role, add the role
         ec2.associate_iam_instance_profile(
             IamInstanceProfile = {
                 'Arn': profileARN
