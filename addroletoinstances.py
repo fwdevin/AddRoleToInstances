@@ -1,3 +1,11 @@
+# This script adds a role to all instances in a VPC. If the instance
+# has a different role than the given role, it will replace the
+# role with the given role.
+#
+# 2017 Devin S.
+
+#!/usr/local/bin/python3
+
 import boto3
 
 region =  str(input('Enter the region: \n'))
