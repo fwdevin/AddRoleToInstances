@@ -4,7 +4,7 @@
 #
 # 2017 Devin S.
 
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import boto3
 
